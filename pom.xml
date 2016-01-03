@@ -54,25 +54,12 @@
 			<version>${version.org.arquillian}</version>
 			<scope>test</scope>
 		</dependency>
-		<!--  dependency for using remote - already running infinispan server -->
-		<!-- 
-		<dependency>
-			<groupId>org.wildfly</groupId>
-			<artifactId>wildfly-arquillian-container-remote</artifactId>
-			<version>${version.org.wildfly}</version>
-			<scope>test</scope>
-			<exclusions>
-				<exclusion>
-					<artifactId>jconsole</artifactId>
-					<groupId>sun.jdk</groupId>
-				</exclusion>
-				<exclusion>
-					<artifactId>xnio-api</artifactId>
-					<groupId>org.jboss.xnio</groupId>
-				</exclusion>
-			</exclusions>
-		</dependency>
-		-->
+		<!-- dependency for using remote - already running infinispan server -->
+		<!-- <dependency> <groupId>org.wildfly</groupId> <artifactId>wildfly-arquillian-container-remote</artifactId> 
+			<version>${version.org.wildfly}</version> <scope>test</scope> <exclusions> 
+			<exclusion> <artifactId>jconsole</artifactId> <groupId>sun.jdk</groupId> 
+			</exclusion> <exclusion> <artifactId>xnio-api</artifactId> <groupId>org.jboss.xnio</groupId> 
+			</exclusion> </exclusions> </dependency> -->
 		<!-- dependency for launching local infinispan server -->
 		<dependency>
 			<groupId>org.wildfly</groupId>
@@ -118,5 +105,25 @@
 			<version>4.0.3.Final</version>
 		</dependency>
 	</dependencies>
+
+	<build>
+		<pluginManagement>
+			<plugins>
+				<!-- JAVA COMPILER -->
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-compiler-plugin</artifactId>
+					<configuration>
+						<showDeprecation>true</showDeprecation>
+						<showWarnings>true</showWarnings>
+						<verbose>true</verbose>
+						<compilerVersion>1.7</compilerVersion>
+						<source>1.7</source>
+						<target>1.7</target>
+					</configuration>
+				</plugin>
+			</plugins>
+		</pluginManagement>
+	</build>
 
 </project>

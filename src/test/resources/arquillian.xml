@@ -1,47 +1,82 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!--
-Copyright 2012 Red Hat, Inc. and/or its affiliates.
+<!-- Copyright 2012 Red Hat, Inc. and/or its affiliates. This is free software; 
+	you can redistribute it and/or modify it under the terms of the GNU Lesser 
+	General Public License as published by the Free Software Foundation; either 
+	version 2.1 of the License, or (at your option) any later version. This software 
+	is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; 
+	without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+	PURPOSE. See the GNU Lesser General Public License for more details. You 
+	should have received a copy of the GNU Lesser General Public License along 
+	with this library; if not, write to the Free Software Foundation, Inc., 51 
+	Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA -->
+<arquillian xmlns="http://www.jboss.org/arquillian-1.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.jboss.org/arquillian-1.0 http://jboss.org/schema/arquillian/arquillian-1.0.xsd">
 
-This is free software; you can redistribute it and/or modify it
-under the terms of the GNU Lesser General Public License as
-published by the Free Software Foundation; either version 2.1 of
-the License, or (at your option) any later version.
+	<!-- add -Darquillian.launch = standalone to command line -->
+	<group qualifier="standalone">
+		<container qualifier="standaloneContainer">
+			<configuration>
 
-This software is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-Lesser General Public License for more details.
+				<property name="managementAddress">127.0.0.1</property>
+				<property name="managementPort">9990</property>
+				<property name="jmxDomain">jboss.infinispan</property>
+				<!-- <property name="username">testuser</property> <property name="password">testpassword</property> -->
 
-You should have received a copy of the GNU Lesser General Public
-License along with this library; if not, write to the Free Software
-Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA
-02110-1301 USA
--->
-<arquillian xmlns="http://www.jboss.org/arquillian-1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://www.jboss.org/arquillian-1.0 http://jboss.org/schema/arquillian/arquillian-1.0.xsd">
+				<!-- Property to connect to an already launched managed Infinispan server -->
+				<property name="allowConnectingToRunningServer">true</property>
 
-    <group qualifier="Grid">
-        <container qualifier="container1" default="true">
-            <configuration>
-                
-                <property name="managementAddress">127.0.0.1</property>
-                <property name="managementPort">9990</property>
-                <property name="jmxDomain">jboss.infinispan</property>
-                <!--  
-                <property name="username">testuser</property>
-                <property name="password">testpassword</property>
-                -->
-                
-                <!--  Property to connect to an already launched managed Infinispan server -->
-                <property name="allowConnectingToRunningServer">true</property>
-                
-                <!-- Properties to launch a Infinispan local in managed mode -->
-                <property name="jbossHome">D:\Outilsdev\infinispan-server-7.2.5.Final</property>
-                <property name="serverConfig">standalone.xml</property>
-                <property name="javaVmArguments">-Djava.net.preferIPv4Stack=true -Djboss.node.name=node0</property>
+				<!-- Properties to launch a Infinispan local in managed mode -->
+				<property name="jbossHome">D:\opt\infinispan-server-7.2.5.Final</property>
+				<property name="serverConfig">standalone.xml</property>
+				<property name="javaVmArguments">-Djava.net.preferIPv4Stack=true
+					-Djboss.node.name=node0</property>
 
-            </configuration>
-        </container>
-    </group>
+			</configuration>
+		</container>
+	</group>
 
+	<!-- add -Darquillian.launch = clustered to command line -->
+	<group qualifier="clustered">
+		<container qualifier="clusteredContainer1">
+			<configuration>
+
+				<property name="managementAddress">127.0.0.1</property>
+				<property name="managementPort">9990</property>
+				<property name="jmxDomain">jboss.infinispan</property>
+				<!-- <property name="username">testuser</property> <property name="password">testpassword</property> -->
+
+				<!-- Property to connect to an already launched managed Infinispan server -->
+				<property name="allowConnectingToRunningServer">true</property>
+
+				<!-- Properties to launch a Infinispan local in managed mode -->
+				<property name="jbossHome">D:\opt\infinispan-server-7.2.5.Final</property>
+				<property name="serverConfig">clustered.xml</property>
+				<property name="javaVmArguments">-Djava.net.preferIPv4Stack=true
+					-Djboss.node.name=node0</property>
+
+			</configuration>
+		</container>
+
+		<container qualifier="clusteredContainer2">
+			<configuration>
+
+				<property name="managementAddress">127.0.0.1</property>
+				<property name="managementPort">10090</property>
+				<property name="jmxDomain">jboss.infinispan</property>
+				<!-- <property name="username">testuser</property> <property name="password">testpassword</property> -->
+
+				<!-- Property to connect to an already launched managed Infinispan server -->
+				<property name="allowConnectingToRunningServer">true</property>
+
+				<!-- Properties to launch a Infinispan local in managed mode -->
+				<property name="jbossHome">D:\opt\infinispan-server-7.2.5.Final</property>
+				<property name="serverConfig">clustered.xml</property>
+				<property name="javaVmArguments">-Djava.net.preferIPv4Stack=true
+					-Djboss.node.name=node1 -Djboss.socket.binding.port-offset=100
+				</property>
+
+			</configuration>
+		</container>
+	</group>
 </arquillian>
