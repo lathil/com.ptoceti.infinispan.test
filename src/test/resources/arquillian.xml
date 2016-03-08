@@ -27,7 +27,7 @@
 				<property name="allowConnectingToRunningServer">true</property>
 
 				<!-- Properties to launch a Infinispan local in managed mode -->
-				<property name="jbossHome">D:\opt\infinispan-server-7.2.5.Final</property>
+				<property name="jbossHome">D:\Outilsdev\infinispan-server-7.2.5.Final</property>
 				<property name="serverConfig">standalone.xml</property>
 				<property name="javaVmArguments">-Djava.net.preferIPv4Stack=true
 					-Djboss.node.name=node0</property>
@@ -50,7 +50,7 @@
 				<property name="allowConnectingToRunningServer">true</property>
 
 				<!-- Properties to launch a Infinispan local in managed mode -->
-				<property name="jbossHome">D:\opt\infinispan-server-7.2.5.Final</property>
+				<property name="jbossHome">D:\Outilsdev\infinispan-server-7.2.5.Final</property>
 				<property name="serverConfig">clustered.xml</property>
 				<property name="javaVmArguments">-Djava.net.preferIPv4Stack=true
 					-Djboss.node.name=node0</property>
@@ -70,11 +70,91 @@
 				<property name="allowConnectingToRunningServer">true</property>
 
 				<!-- Properties to launch a Infinispan local in managed mode -->
-				<property name="jbossHome">D:\opt\infinispan-server-7.2.5.Final</property>
+				<property name="jbossHome">D:\Outilsdev\infinispan-server-7.2.5.Final</property>
 				<property name="serverConfig">clustered.xml</property>
 				<property name="javaVmArguments">-Djava.net.preferIPv4Stack=true
 					-Djboss.node.name=node1 -Djboss.socket.binding.port-offset=100
 				</property>
+
+			</configuration>
+		</container>
+	</group>
+	
+	<group qualifier="standalone-remote">
+		<container qualifier="standaloneContainer">
+			<configuration>
+
+				<property name="managementAddress">z8t7268v</property>
+				<property name="managementPort">7190</property>
+				<property name="jmxDomain">jboss.infinispan</property>
+				<!-- <property name="username">testuser</property> <property name="password">testpassword</property> -->
+
+				<!-- Property to connect to an already launched managed Infinispan server -->
+				<property name="allowConnectingToRunningServer">true</property>
+
+				<!-- Properties to launch a Infinispan local in managed mode -->
+				<!-- 
+				<property name="jbossHome">D:\Outilsdev\infinispan-server-7.2.5.Final</property>
+				<property name="serverConfig">clustered.xml</property>
+				<property name="javaVmArguments">-Djava.net.preferIPv4Stack=true
+					-Djboss.node.name=node0</property>
+				 -->
+
+			</configuration>
+		</container>
+	</group>
+	
+	<group qualifier="clustered-remote">
+		<container qualifier="clusteredContainer1">
+			<configuration>
+				<!-- infinispan01 -->
+				<property name="managementAddress">10.204.93.27</property>
+				<property name="managementPort">7190</property>
+				<property name="jmxDomain">jboss.infinispan</property>
+				<!-- <property name="username">admin</property> <property name="password">admin</property> -->
+
+				<!-- Property to connect to an already launched managed Infinispan server -->
+				<property name="allowConnectingToRunningServer">true</property>
+
+				<!-- Properties to launch a Infinispan local in managed mode -->
+				<!-- 
+				<property name="jbossHome">D:\Outilsdev\infinispan-server-7.2.5.Final</property>
+				<property name="serverConfig">clustered.xml</property>
+				<property name="javaVmArguments">-Djava.net.preferIPv4Stack=true
+					-Djboss.node.name=node0</property>
+				 -->
+
+			</configuration>
+		</container>
+
+		<container qualifier="clusteredContainer2">
+			<configuration>
+				<!-- infinispan03 -->
+				<!--
+				<property name="managementAddress">10.204.93.27</property>
+				<property name="managementPort">7290</property>
+				-->
+				<!-- infinispan04 -->
+				<property name="managementAddress">10.204.93.27</property>
+				<property name="managementPort">7190</property>
+				<!-- 
+				<property name="managementAddress">10.204.94.75</property>
+				<property name="managementPort">7390</property>
+				 -->
+				<property name="jmxDomain">jboss.infinispan</property>
+				<!-- <property name="username">admin</property> <property name="password">admin</property> -->
+
+				<!-- Property to connect to an already launched managed Infinispan server -->
+				<property name="allowConnectingToRunningServer">true</property>
+
+				<!-- Properties to launch a Infinispan local in managed mode -->
+				<!-- 
+				<property name="jbossHome">D:\Outilsdev\infinispan-server-7.2.5.Final</property>
+				<property name="serverConfig">clustered.xml</property>
+				<property name="javaVmArguments">-Djava.net.preferIPv4Stack=true
+					-Djboss.node.name=node1 -Djboss.socket.binding.port-offset=100
+				</property>
+				 -->
 
 			</configuration>
 		</container>

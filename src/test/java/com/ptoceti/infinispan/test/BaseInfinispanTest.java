@@ -22,6 +22,18 @@ public abstract class BaseInfinispanTest {
 	return getLoad(1024 * 10);
     }
 
+    public String get20KLoad() {
+	return getLoad(1024 * 20);
+    }
+
+    public String get50KLoad() {
+	return getLoad(1024 * 50);
+    }
+
+    public String get100KLoad() {
+	return getLoad(1024 * 100);
+    }
+
     protected String getLoad(int size) {
 	char[] bytesLoad = new char[size];
 	for (int i = 0; i < size; i++) {
@@ -31,8 +43,7 @@ public abstract class BaseInfinispanTest {
 	return load;
     }
 
-    public void injectTest(RemoteCache<String, String> cache, String data, int numWriteThreads, int numWriteFuturs,
-	    int nbInjections) {
+    public void injectTest(RemoteCache<String, String> cache, String data, int numWriteThreads, int numWriteFuturs, int nbInjections) {
 	// record beginning of the test
 	Calendar start = Calendar.getInstance();
 
@@ -41,7 +52,8 @@ public abstract class BaseInfinispanTest {
 	// count the number of injections
 	int injectionCount = 0;
 	long maxTime = 0;
-	long minTime = 0;
+	long minTime = Long.MAX_VALUE;
+	double avg = 0;
 	try {
 	    // Set up a list with the results of each concurrent updater
 	    List<Future<CacheResult>> results = new ArrayList<>(numWriteFuturs);
@@ -56,11 +68,12 @@ public abstract class BaseInfinispanTest {
 		injectionCount += result.getCount();
 		if (result.getMaxTime() > maxTime)
 		    maxTime = result.getMaxTime();
-		if (minTime == 0)
+		if (result.getMinTime() < minTime)
 		    minTime = result.getMinTime();
-		if (result.getMinTime() > minTime)
-		    minTime = result.getMinTime();
+		avg = avg + result.getAvg();
 	    }
+	    
+	    avg = avg / ((double)numWriteFuturs);
 
 	} catch (InterruptedException | ExecutionException e) {
 	    // TODO Auto-generated catch block
@@ -71,9 +84,8 @@ public abstract class BaseInfinispanTest {
 	// record end of the test
 	Calendar endWrite = Calendar.getInstance();
 	long durationWrite = endWrite.getTimeInMillis() - start.getTimeInMillis();
-	System.out.println("Numbert of injections: " + Integer.toString(injectionCount) + " lasted: "
-		+ Long.toString(durationWrite) + " ms" + " min write: " + Long.toString(minTime) + "ms, max write:  "
-		+ Long.toString(maxTime) + " ms");
+	System.out.println("Numbert of injections: " + Integer.toString(injectionCount) + " lasted: " + Long.toString(durationWrite) + " ms" + " min write: " + Long.toString(minTime)
+		+ "ms, max write:  " + Long.toString(maxTime) + " ms, avg: " + avg + "ms");
 
     }
 
@@ -86,13 +98,14 @@ public abstract class BaseInfinispanTest {
 	// count the number of injections
 	int readCount = 0;
 	long maxTime = 0;
-	long minTime = 0;
+	long minTime = Long.MAX_VALUE;
+	double avg = 0;
 	try {
 	    // Set up a list with the results of each concurrent updater
 	    List<Future<CacheResult>> results = new ArrayList<>(numReadFuturs);
 	    // Start counter updaters
 	    for (int i = 0; i < numReadFuturs; i++)
-		results.add(readExecutor.submit(new CacheReader(cache, nbInjections * numReadFuturs)));
+		results.add(readExecutor.submit(new CacheReader(cache, nbInjections )));
 
 	    // count the total number of reads
 	    for (Future<CacheResult> f : results) {
@@ -100,11 +113,13 @@ public abstract class BaseInfinispanTest {
 		readCount += result.getCount();
 		if (result.getMaxTime() > maxTime)
 		    maxTime = result.getMaxTime();
-		if (minTime == 0)
+		if (result.getMinTime() < minTime)
 		    minTime = result.getMinTime();
-		if (result.getMinTime() > minTime)
-		    minTime = result.getMinTime();
+		
+		avg = avg + result.getAvg();
 	    }
+	    
+	    avg = avg / ((double)numReadFuturs);
 
 	} catch (InterruptedException | ExecutionException e) {
 	    // TODO Auto-generated catch block
@@ -115,9 +130,8 @@ public abstract class BaseInfinispanTest {
 	// record end of the test
 	Calendar endRead = Calendar.getInstance();
 	long durationRead = endRead.getTimeInMillis() - startRead.getTimeInMillis();
-	System.out.println("Numbert of reads: " + Integer.toString(readCount) + " lasted: "
-		+ Long.toString(durationRead) + " ms" + ", min read: " + Long.toString(minTime) + "ms, max read:  "
-		+ Long.toString(maxTime) + " ms");
+	System.out.println("Numbert of reads: " + Integer.toString(readCount) + " lasted: " + Long.toString(durationRead) + " ms" + ", min read: " + Long.toString(minTime) + "ms, max read:  "
+		+ Long.toString(maxTime) + " ms, avg: " + avg + "ms");
 
     }
 

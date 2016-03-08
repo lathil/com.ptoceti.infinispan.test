@@ -2,8 +2,9 @@ package com.ptoceti.infinispan.test;
 
 public class CacheResult {
 
-    private long minTime = 0;
+    private long minTime = Long.MAX_VALUE;
     private long maxTime = 0;
+    private double avg = 0;
     private long count = 0;
     
     
@@ -24,5 +25,11 @@ public class CacheResult {
     }
     public void setCount(long count) {
 	this.count = count;
+    }
+    public double getAvg() {
+	return avg;
+    }
+    public void setAvg(double avg) {
+	this.avg = avg;
     }
 }

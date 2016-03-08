@@ -24,6 +24,7 @@ public class CacheInjector implements Callable<CacheResult> {
 
     public CacheResult call() throws Exception {
 	int injected = 0;
+	double avg = 0;
 	while (injected < nbInjections) {
 	    long start = (new Date()).getTime();
 	    cache.put(Integer.toString(injected + (index * nbInjections)), dataToCache);
@@ -33,8 +34,10 @@ public class CacheInjector implements Callable<CacheResult> {
 	    if( spent < result.getMinTime()) result.setMinTime(spent);
 	    if( result.getMinTime() == 0) result.setMinTime(spent);
 	    injected++;
+	    avg = avg + spent;
 	}
 
+	result.setAvg(avg / (double)injected);
 	result.setCount(injected);
 	
 	return result;
